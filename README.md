@@ -1,27 +1,29 @@
 # pfUI Bar Opacity
 
-Companion addon for [pfUI](https://github.com/brues-code/pfUI) (WoW 1.12): out-of-combat
-opacity for pfUI's action bars, set per bar. In combat, and while the mouse is over a bar,
-the bar is fully opaque.
+Lets [pfUI](https://github.com/brues-code/pfUI)'s action bars fade out of combat, with a
+separate setting per bar if you want one. In combat, or while your mouse is over a bar, the
+bar is fully visible. For WoW 1.12.
 
 ## Usage
 
-pfUI config (`/pfui`) > **Actionbar** > **OOC Opacity**:
+The settings are in pfUI's config (`/pfui`), under Actionbar > OOC Opacity.
 
-- **Full Opacity On Mouseover** (on by default)
-- **Default Opacity (All Bars)**: 10% - 100%. 100% (the default) means no fading.
-- one dropdown per bar (Main, Top, Left, Right, Vertical, Paging, Stance 1-4, Shapeshift,
-  Pet): **Default** (follow the value above, the default) or its own 10% - 100%.
+- **Full Opacity On Mouseover** is on by default.
+- **Default Opacity (All Bars)** goes from 10% to 100%. At 100%, the default, nothing fades.
+- Each bar has its own dropdown (Main, Top, Left, Right, Vertical, Paging, Stance 1-4,
+  Shapeshift, Pet). Leave it on **Default** to use the value above, or pick a percentage
+  for that bar.
 
-Bars with pfUI's own **Autohide** enabled are left alone, because Autohide sets their
-opacity itself.
+Bars that use pfUI's Autohide are skipped, since Autohide already controls their opacity.
 
-The settings are saved in pfUI's config, so they follow pfUI profiles. pfUI's own files
-aren't changed, so its folder stays a clean git clone.
+Your choices are saved in pfUI's config, so they follow your pfUI profile. pfUI's own files
+aren't modified.
 
 ## Install
 
-- **With a launcher or git:** add `https://github.com/daev-code/pfUIBarOpacity` as an addon, or
-  `git clone` it into `Interface\AddOns`. Keep the `.git` folder: launchers that install
-  from git use it to fetch updates.
-- **By hand:** copy this folder to `Interface\AddOns\pfUIBarOpacity`. Updates are then manual too.
+Add `https://github.com/daev-code/pfUIBarOpacity` to your launcher, or `git clone` it into
+`Interface\AddOns`. Leave the `.git` folder in place: launchers that install from git need
+it to pull updates.
+
+You can also copy the folder to `Interface\AddOns\pfUIBarOpacity` yourself, but then
+you'll need to update it yourself too.
