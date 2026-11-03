@@ -1,0 +1,55 @@
+# AGENTS.md - pfUIBarOpacity
+
+Companion addon for [pfUI](https://github.com/brues-code/pfUI). What it does for players (settings, behaviour) is in `README.md`; this file covers internals and how to work on it.
+
+Files: `pfUIBarOpacity.toc`, `pfUIBarOpacity.lua`, `README.md` (user docs), this file.
+
+## How it hooks into pfUI
+
+- Registered with `pfUI:RegisterModule`, so it runs in pfUI's module environment
+  (`C` = `pfUI_config`, `T` = translations) after pfUI's gui and actionbar modules.
+- Settings page via pfUI's third-party GUI functions `pfUI.gui.CreateGUIEntry` /
+  `pfUI.gui.CreateConfig` (Actionbar > OOC Opacity). Dropdown values are `"value:Label"`.
+- Config: `C.bars.ooc_alpha_default`, `C.bars.barN.ooc_alpha` (`"default"` or a number),
+  `C.bars.ooc_mouseover`. Defaults via `pfUI:UpdateConfig`, which only fills missing keys.
+  Bars still at the old per-bar `1` (100%) are switched to `"default"` once.
+- Bars are `pfUI.bars[1..12]`; Autohide bars are skipped. The alpha is applied on combat
+  start/end and re-checked 10 times a second (mouseover, and pfUI resetting a bar's alpha
+  when it rebuilds the bar).
+
+## Environment
+
+- Client: WoW 1.12.1, so **Lua 5.0**: `table.getn` (no `#`),
+  `string.find` / `string.gsub` (no `string.match` / `gmatch`), `math.mod`, varargs via `arg`.
+- Scripts use the 1.12 globals `this`, `event`, `arg1`..`argN`. There is no `HookScript`:
+  wrap with `GetScript` / `SetScript`, or replace global functions.
+- SavedVariables are loaded after the addon's files: read settings in `ADDON_LOADED` /
+  `PLAYER_LOGIN`, not at file load.
+- No `_G` in plain Lua 5.0: use `getfenv(0)` or `getglobal()`.
+
+## Working copy vs repo
+
+The live copy is in the game's `Interface\AddOns\pfUIBarOpacity` folder. Edit there, test in game with
+`/reload`, then copy the changed files into this repo and commit. Before committing, check
+that both copies are identical (for example by comparing hashes).
+
+## Rules
+
+- Never edit the addon this extends (`pfUI`). Its folder must stay a clean git clone
+  of https://github.com/brues-code/pfUI. Everything goes in this companion addon.
+- UI conventions: prefer buttons and settings over slash commands (slash commands only as
+  show/hide/toggle shortcuts); muted, darkened status colours.
+- Nothing here needs network access; go easy on external APIs.
+
+## Pre-commit checklist
+
+1. Update `README.md` for any user-visible change (settings, clicks, behaviour) and this file
+   for internals (hooks, stored values, timing). Don't repeat one in the other.
+2. Keep the header comment in the `.lua` in sync with what the code does.
+3. There are no automated tests: verify in game (`/reload`, and a full relog when
+   SavedVariables or the `.toc` changed). Say in the report what wasn't tested.
+4. Copy the game-folder files into the repo, then commit code and docs together.
+5. Don't commit scratch notes, logs or downloaded third-party files. The repo is public:
+   keep personal details (names, local paths, account or character names) out of files and
+   commit messages, and don't name the specific client, launcher, server or realm this is
+   played on. Say "WoW 1.12" and link the repo of the addon being extended instead.

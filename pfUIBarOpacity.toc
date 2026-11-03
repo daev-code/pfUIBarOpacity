@@ -1,0 +1,8 @@
+## Interface: 11200
+## Title: |cff33ffccpf|rUI Bar Opacity
+## Notes: Out-of-combat opacity for pfUI's action bars (per bar), fully opaque on mouseover. Settings: pfUI config > Actionbar > OOC Opacity.
+## Version: 1.0
+## Author: daev-code
+## X-Website: https://github.com/daev-code/pfUIBarOpacity
+## Dependencies: pfUI
+pfUIBarOpacity.lua
